@@ -63,17 +63,22 @@ def get_image(url, iter = 2, width = None):
 
   paper = image.copy()
   
+  # applying blur
+  gray = cv2.GaussianBlur(gray, (5,5), 0)
   # apply Otsu's thresholding method to binarize the image
   thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-  kernel = np.ones((5,5), np.uint8)
+  kernel = np.ones((3,3), np.uint8)
+
+  # morphology (cleaner than manual erode+dilate)
+  thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
+
   # erode and dilate to remove some of the unnecessary detail
-  thresh = cv2.erode(thresh, kernel, iterations = iter)
-  thresh = cv2.dilate(thresh, kernel, iterations = iter)
+  # thresh = cv2.erode(thresh, kernel, iterations = iter)
+  # thresh = cv2.dilate(thresh, kernel, iterations = iter)
 
   # find contours in the thresholded image
   ctrs = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   ctrs = imutils.grab_contours(ctrs)
-  
   return image, ctrs, paper, gray, edged, thresh
 
 # plot image without axes
@@ -357,7 +362,7 @@ def translate(letters):
 # url = 'https://i.imgur.com/4ggIni9.jpg'    # not works :<
 # url = 'https://i.imgur.com/UBqs60s.jpg'    # works
 # url = 'https://i.imgur.com/ihU7tFt.jpg'    # works (iter = 0, width = 1500)
-url = 'image3.png'    # works (iter = 0, width = 1500)
+url = 'image2.png'    # works (iter = 0, width = 1500)
 
 image, ctrs, paper, gray, edged, thresh = get_image(url, iter = 0, width = 1500)
 
