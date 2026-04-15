@@ -362,7 +362,7 @@ def translate(letters):
 # url = 'https://i.imgur.com/4ggIni9.jpg'    # not works :<
 # url = 'https://i.imgur.com/UBqs60s.jpg'    # works
 # url = 'https://i.imgur.com/ihU7tFt.jpg'    # works (iter = 0, width = 1500)
-url = 'image2.png'    # works (iter = 0, width = 1500)
+url = 'imag8.jpeg'    # works (iter = 0, width = 1500)
 
 image, ctrs, paper, gray, edged, thresh = get_image(url, iter = 0, width = 1500)
 
