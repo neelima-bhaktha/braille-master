@@ -288,6 +288,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    port = 8000
+    import os
+    port = int(os.environ.get('PORT', 8000))
     print(f"\n  Braille Reader running at http://localhost:{port}\n")
     HTTPServer(('', port), Handler).serve_forever()
